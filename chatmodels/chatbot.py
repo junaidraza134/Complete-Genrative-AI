@@ -1,22 +1,22 @@
-from dotenv import load_dotenv
-from langchain_mistralai import ChatMistralAI
+# from dotenv import load_dotenv
+# from langchain_mistralai import ChatMistralAI
 
-load_dotenv()
+# load_dotenv()
 
-model = ChatMistralAI(
-    model="mistral-small-latest",   # or "mistral-large-latest"
-    temperature=0.9
-)
-messages=[]        #its list which story the conversation basically it is temporarly
-while(True):
-    print("--------Welcome type 0 to exit the application-----")
-    prompt=input("You: ")
-    messages.append(prompt)
-    if(prompt=="0"):
-        break
-    response = model.invoke(messages) 
-    messages.append(response.content)
-    print("Bot: ",response.content)
+# model = ChatMistralAI(
+#     model="mistral-small-latest",   # or "mistral-large-latest"
+#     temperature=0.9
+# )
+# messages=[]        #its list which story the conversation basically it is temporarly
+# while(True):
+#     print("--------Welcome type 0 to exit the application-----")
+#     prompt=input("You: ")
+#     messages.append(prompt)
+#     if(prompt=="0"):
+#         break
+#     response = model.invoke(messages) 
+#     messages.append(response.content)
+#     print("Bot: ",response.content)
 
 
 # # this chatbot store the conversation in permenent by langchain library

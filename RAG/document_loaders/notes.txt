@@ -1,0 +1,88 @@
+Introduction to Generative AI
+
+Generative Artificial Intelligence, commonly known as Generative AI, is a type of artificial intelligence that can create new content such as text, images, audio, video, and computer code.
+
+Unlike traditional AI systems that mainly classify data or make predictions, Generative AI learns patterns from large amounts of training data and uses those patterns to generate new content.
+
+Large Language Models
+
+Large Language Models, also known as LLMs, are AI models trained on very large amounts of text data. They can understand and generate human-like text.
+
+Examples of popular Large Language Models include GPT, Gemini, Claude, Llama, and Mistral.
+
+LLMs can perform many tasks such as:
+- Question answering
+- Text summarization
+- Translation
+- Content generation
+- Code generation
+- Chatbots
+
+LangChain
+
+LangChain is an open-source framework used to build applications powered by Large Language Models.
+
+It helps developers connect LLMs with different components such as prompts, document loaders, text splitters, embeddings, vector databases, retrievers, tools, and external data sources.
+
+For example, LangChain can be used to build an AI application where a student uploads a PDF and asks questions about the information contained in that PDF.
+
+Embeddings
+
+Embeddings are numerical vector representations of data that capture semantic meaning.
+
+An embedding model converts text into a list of numbers called a vector.
+
+For example:
+
+"Artificial Intelligence"
+
+can be converted into a vector such as:
+
+[0.21, -0.45, 0.78, 0.32, ...]
+
+Texts with similar meanings generally have embeddings that are closer to each other in vector space.
+
+Embeddings are commonly used for semantic search, recommendation systems, similarity search, and Retrieval-Augmented Generation.
+
+Vector Databases
+
+A vector database stores and searches vector embeddings.
+
+In a RAG application, document chunks are converted into embeddings and stored in a vector database along with their original text and metadata.
+
+Examples of vector databases and vector stores include FAISS, Chroma, Pinecone, and Weaviate.
+
+Retrieval-Augmented Generation
+
+Retrieval-Augmented Generation, commonly called RAG, is a technique that combines information retrieval with Large Language Models.
+
+A basic RAG system works in the following steps:
+
+1. Load documents.
+2. Split documents into smaller chunks.
+3. Convert the chunks into embeddings.
+4. Store the embeddings in a vector database.
+5. Accept a question from the user.
+6. Convert the question into an embedding.
+7. Search for relevant document chunks.
+8. Retrieve the most relevant chunks.
+9. Provide those chunks as context to an LLM.
+10. Generate the final answer.
+
+CourseMate AI
+
+CourseMate AI is an AI-powered study assistant that allows students to interact with their learning materials.
+
+Students can upload resources such as lecture notes, textbooks, PDFs, and research papers.
+
+Instead of manually searching through long documents, students can ask questions in natural language.
+
+For example, a student may ask:
+
+"What is Retrieval-Augmented Generation?"
+
+CourseMate AI searches the uploaded study material, retrieves the most relevant information, and provides that information to an LLM.
+
+The LLM then generates an easy-to-understand answer based on the retrieved context.
+
+The main goal of CourseMate AI is to make studying faster and easier by allowing students to chat with their own study materials.

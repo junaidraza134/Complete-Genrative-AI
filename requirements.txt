@@ -21,3 +21,27 @@ tiktoken
 numpy
 pandas
 langchain_huggingface
+
+# ===== CourseMate AI - RAG Dependencies =====
+
+# PDF loading and processing
+pypdf
+
+# Text splitting
+langchain-text-splitters
+
+# Local Hugging Face embedding models
+sentence-transformers
+
+# Vector Database - FAISS
+faiss-cpu
+
+# Vector Database - Chroma
+langchain-chroma
+chromadb
+
+# Frontend / User Interface
+streamlit
+
+# File upload support for FastAPI
+python-multipart

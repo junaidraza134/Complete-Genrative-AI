@@ -1,0 +1,577 @@
+CourseMate AI is an AI-powered study assistant that allows students to upload their learning materials and ask questions directly from those documents using Retrieval-Augmented Generation (RAG).
+
+In simple words:
+
+CourseMate AI = Chat with your own study materials.
+
+Students can upload:
+
+📄 PDFs
+📝 Lecture notes
+📚 Textbooks
+🔬 Research papers
+
+Then ask questions such as:
+
+"What is Machine Learning?"
+
+"Explain Chapter 3 in simple words."
+
+"Summarize this topic."
+
+CourseMate AI searches the uploaded material, finds the relevant information, and uses an LLM to generate an easy-to-understand answer.
+
+2. 🤔 What Problem Does CourseMate AI Solve?
+
+Students often have hundreds of pages of study material.
+
+Suppose you have:
+
+Machine_Learning.pdf → 300 pages
+AI_Notes.pdf         → 150 pages
+Research_Paper.pdf   → 50 pages
+
+If you want to understand Gradient Descent, normally you need to:
+
+Open documents
+      ↓
+Search manually
+      ↓
+Find correct pages
+      ↓
+Read paragraphs
+      ↓
+Understand the answer
+
+This takes time.
+
+With CourseMate AI:
+Upload Documents
+       ↓
+Ask:
+"Explain Gradient Descent"
+       ↓
+AI finds relevant information
+       ↓
+AI explains it
+
+The main goal is:
+
+Save students' time by allowing them to interact with study materials using natural-language questions.
+
+3. 🧠 Core Technology — RAG
+
+CourseMate AI is mainly a RAG-based application.
+
+What is RAG?
+
+RAG stands for Retrieval-Augmented Generation.
+
+Correct Definition
+
+RAG is a technique that first retrieves relevant information from an external knowledge source and then provides that information as context to an LLM to generate a more accurate and relevant answer.
+
+Remember:
+
+R = Retrieval
+    Find relevant information
+
+A = Augmented
+    Add information to the LLM's context
+
+G = Generation
+    LLM generates the final answer
+Simple Formula
+RAG = Search → Add Context → Generate Answer
+4. 🏗️ Complete CourseMate AI Architecture
+
+The complete project can be understood in two major phases:
+
+              CourseMate AI
+                    │
+          ┌─────────┴─────────┐
+          ▼                   ▼
+       PHASE 1             PHASE 2
+       INDEXING        RETRIEVAL + GENERATION
+
+Upload Document         Ask Question
+      ↓                       ↓
+Load Document           Query Embedding
+      ↓                       ↓
+Clean (Optional)        Similarity Search
+      ↓                       ↓
+Split into Chunks       Retriever
+      ↓                       ↓
+Create Embeddings       Relevant Chunks
+      ↓                       ↓
+Store in Vector DB      Context + Question
+                              ↓
+                             LLM
+                              ↓
+                         Final Answer
+🟦 PHASE 1 — INDEXING
+Step 1 — User Uploads Study Material
+
+The student uploads learning resources.
+
+Examples:
+
+PDF
+Lecture Notes
+Textbooks
+Research Papers
+
+Example:
+
+Student
+   ↓
+Upload
+   ↓
+Generative_AI_Notes.pdf
+
+At this stage, we only have the raw file.
+
+Step 2 — Document Loading
+Definition
+
+Document Loading is the process of reading data from a file or data source and converting it into document objects that our application can process.
+
+Example:
+
+PDF
+ ↓
+Document Loader
+ ↓
+Document Objects
+
+A document object typically contains:
+
+Page Content
++
+Metadata
+
+Conceptually:
+
+Document(
+    page_content="LangChain is a framework...",
+    metadata={
+        "source": "GenAI_Notes.pdf",
+        "page": 40
+    }
+)
+Why metadata?
+
+Metadata helps identify where information came from.
+
+For example:
+
+Source → GenAI_Notes.pdf
+Page   → 40
+
+This can later support source citations.
+
+Step 3 — Document Cleaning
+
+This step is optional.
+
+Extracted documents may contain:
+
+Extra spaces
+Headers
+Footers
+Unwanted characters
+Repeated text
+
+We can clean them before further processing.
+
+Raw Text
+
+↓
+
+Cleaning
+
+↓
+
+Clean Text
+Step 4 — Text Splitting / Chunking
+Definition
+
+Text splitting is the process of dividing large documents into smaller pieces called chunks.
+
+Suppose:
+
+PDF = 300 pages
+
+Instead of treating it as one huge document:
+
+300-page PDF
+
+↓
+
+Text Splitter
+
+↓
+
+Chunk 1
+Chunk 2
+Chunk 3
+Chunk 4
+...
+
+Example:
+
+Chunk 1 → Artificial Intelligence
+
+Chunk 2 → Machine Learning
+
+Chunk 3 → Deep Learning
+
+Chunk 4 → LLM
+
+Chunk 5 → LangChain
+
+Chunk 6 → RAG
+Why chunking?
+
+Because smaller chunks:
+
+Improve retrieval accuracy.
+Make semantic search more focused.
+Help avoid sending unnecessary document content to the LLM.
+Fit more easily within model context limits.
+
+Two important terms are:
+
+chunk_size
+
+How large each chunk is.
+
+And:
+
+chunk_overlap
+
+How much neighboring chunks share to reduce loss of context at chunk boundaries.
+
+Step 5 — Embedding Generation
+Definition
+
+An embedding is a numerical vector representation of data that captures its semantic meaning.
+
+Example:
+
+"Gradient Descent Optimization"
+
+           ↓
+
+      Embedding Model
+
+           ↓
+
+[0.23, -0.81, 0.44, ...]
+
+The text is converted into numbers because computers can mathematically compare vectors.
+
+Important
+Text
+ ↓
+Embedding Model
+ ↓
+Vector
+
+An embedding model does not generate an answer.
+
+It only converts text into vectors.
+
+Step 6 — Vector Database Storage
+
+Now we store:
+
+Embedding
++
+Original Text Chunk
++
+Metadata
+
+inside a Vector Database / Vector Store.
+
+Examples:
+
+FAISS
+Chroma
+Pinecone
+Weaviate
+
+Conceptually:
+
+Vector Database
+
+Record 1
+│
+├── Vector
+│   [0.21, -0.45, ...]
+│
+├── Original Text
+│   "Machine Learning is..."
+│
+└── Metadata
+    Page 25
+Why Vector Database?
+
+Because it allows us to perform semantic similarity search efficiently.
+
+At this point, Phase 1 is complete:
+
+Upload
+ ↓
+Load
+ ↓
+Clean
+ ↓
+Split
+ ↓
+Embed
+ ↓
+Store
+
+This is called Indexing.
+
+🟩 PHASE 2 — RETRIEVAL + GENERATION
+
+Now the student can ask questions.
+
+Step 7 — User Asks a Question
+
+Example:
+
+"How does Gradient Descent minimize error?"
+
+We don't immediately ask the LLM to answer from its own general knowledge.
+
+First, CourseMate AI searches the student's documents.
+
+Step 8 — Query Embedding
+
+The user's question is also converted into an embedding.
+
+"How does Gradient Descent minimize error?"
+
+                  ↓
+
+           Embedding Model
+
+                  ↓
+
+        [0.25, -0.79, ...]
+
+Now both:
+
+Document Chunks → Vectors
+
+User Question   → Vector
+
+exist in the same embedding space, assuming the same compatible embedding model is used.
+
+This allows us to compare their semantic similarity.
+
+Step 9 — Similarity Search
+Definition
+
+Similarity search finds document chunks whose vector representations are most similar to the user's query vector.
+
+Example:
+
+The database contains:
+
+Chunk 1 → Python
+Chunk 2 → Machine Learning
+Chunk 3 → Gradient Descent
+Chunk 4 → Operating Systems
+
+Question:
+
+"How does a model reduce its loss during training?"
+
+Even though the question doesn't exactly say:
+
+Gradient Descent
+
+semantic similarity can identify:
+
+Chunk 3 → Gradient Descent
+
+as highly relevant.
+
+This is the power of semantic search.
+
+Step 10 — Retriever
+Definition
+
+A Retriever is the component that fetches the most relevant document chunks for a user's query.
+
+For example:
+
+Search Results
+
+Chunk 5  → 95% relevant
+Chunk 12 → 90% relevant
+Chunk 25 → 85% relevant
+
+If:
+
+k = 3
+
+the retriever returns the top 3 chunks.
+
+This is called:
+
+Top-K Retrieval
+
+These chunks become the context for the LLM.
+
+Step 11 — Prompt Creation / Augmentation
+
+Now we combine:
+
+Retrieved Context
++
+User Question
+
+Example:
+
+Use the following context to answer the question.
+
+Context:
+
+Gradient descent is an optimization algorithm
+that minimizes a loss function by iteratively
+adjusting model parameters...
+
+Question:
+
+How does Gradient Descent minimize error?
+
+This is the Augmented part of RAG.
+
+We are augmenting the user's original question with retrieved information.
+
+Step 12 — LLM Generates the Answer
+
+Finally:
+
+Context
+   +
+Question
+   ↓
+LLM
+   ↓
+Final Answer
+
+The LLM might answer:
+
+"Gradient Descent minimizes error by repeatedly adjusting the model's parameters in a direction that reduces the loss function."
+
+The LLM uses the retrieved study material as context to generate the answer.
+
+This is the Generation part of RAG.
+
+🔥 Complete End-to-End Flow
+                 STUDENT
+
+                    │
+                    ▼
+
+              Upload PDF
+
+                    │
+                    ▼
+
+            Document Loader
+
+                    │
+                    ▼
+
+           Document Objects
+
+                    │
+                    ▼
+
+         Cleaning (Optional)
+
+                    │
+                    ▼
+
+             Text Splitter
+
+                    │
+                    ▼
+
+                 Chunks
+
+                    │
+                    ▼
+
+            Embedding Model
+
+                    │
+                    ▼
+
+                Vectors
+
+                    │
+                    ▼
+
+           Vector Database
+
+                    │
+
+              INDEX READY
+
+                    │
+                    ▼
+
+          Student Asks Question
+
+                    │
+                    ▼
+
+           Question Embedding
+
+                    │
+                    ▼
+
+          Similarity Search
+
+                    │
+                    ▼
+
+               Retriever
+
+                    │
+                    ▼
+
+        Top-K Relevant Chunks
+
+                    │
+                    ▼
+
+                 Context
+
+                    │
+                    ▼
+
+         Context + Question
+
+                    │
+                    ▼
+
+                   LLM
+
+                    │
+                    ▼
+
+              Final Answer
+
+                    │
+                    ▼
+
+                 STUDENT
